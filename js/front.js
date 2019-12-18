@@ -1,25 +1,12 @@
 $(function () {
 
-    /* =========================================
-     * tooltip
-     *  =======================================*/
-
-    $('.customer img').tooltip();
-
-
-    /* =========================================
-     * counters
-     *  =======================================*/
-
+    /* COUNTERS */
     $('.counter').counterUp({
         delay: 10,
         time: 1000
     });
 
-    /* =================================================
-     * Preventing URL update on navigation link click
-     *  ==============================================*/
-
+    /* FACILITATE SILENT NAVIGATION LINKS */
     $('.link-scroll').on('click', function (e) {
         var anchor = $(this);
         $('html, body').stop().animate({
@@ -29,50 +16,13 @@ $(function () {
     });
 
 
-    /* =========================================
-     *  Scroll Spy
-     *  =======================================*/
-
+    /* SCROLL SPY */
     $('body').scrollspy({
         target: '#navbarcollapse',
         offset: 80
     });
 
-
-    /* =========================================
-     * testimonial slider
-     *  =======================================*/
-
-    $(".testimonials").owlCarousel({
-        nav: false,
-        dots: true,
-        responsiveClass: true,
-        responsive: {
-            0: {
-                items: 1
-            },
-            600: {
-                items: 1
-            },
-            1000: {
-                items: 3
-            },
-            1200: {
-                items: 4
-            }
-        }
-    });
-
-
-    /* =========================================
-     * Leflet map
-     *  =======================================*/
-    map();
-
-
-    /* =========================================
-     * parallax
-     *  =======================================*/
+    /* PARALLAX */
     $(window).scroll(function () {
 
         var scroll = $(this).scrollTop();
@@ -88,10 +38,7 @@ $(function () {
         }
     });
 
-    /* =========================================
-     * filter
-     *  =======================================*/
-
+    /* FILTER */
     $('#filter a').click(function (e) {
         e.preventDefault();
 
@@ -112,9 +59,7 @@ $(function () {
     });
 
 
-    /* =========================================
-     * reference functionality
-     *  =======================================*/
+    /* WORK FUNCTIONALITY */
     $('.reference a').on('click', function (e) {
 
         e.preventDefault();
@@ -173,10 +118,7 @@ $(function () {
     });
 
 
-    /* =========================================
-     *  animations
-     *  =======================================*/
-
+    /* ANIMATIONS */
     delayTime = 0;
 
     $('[data-animate]').waypoint(function (direction) {
@@ -209,104 +151,4 @@ $(function () {
         $(this).removeClass($(this).data('animate-hover'));
     });
 
-    /* =========================================
-     * for demo purpose
-     *  =======================================*/
-
-    var stylesheet = $('link#theme-stylesheet');
-    $("<link id='new-stylesheet' rel='stylesheet'>").insertAfter(stylesheet);
-    var alternateColour = $('link#new-stylesheet');
-
-    if ($.cookie("theme_csspath")) {
-        alternateColour.attr("href", $.cookie("theme_csspath"));
-    }
-
-    $("#colour").change(function () {
-
-        if ($(this).val() !== '') {
-
-            var theme_csspath = 'css/style.' + $(this).val() + '.css';
-
-            alternateColour.attr("href", theme_csspath);
-
-            $.cookie("theme_csspath", theme_csspath, {
-                expires: 365,
-                path: document.URL.substr(0, document.URL.lastIndexOf('/'))
-            });
-
-        }
-
-        return false;
-    });
-
 });
-
-
-
-/* =========================================
- * styled Leaflet Map
- *  =======================================*/
-// ------------------------------------------------------ //
-// styled Leaflet  Map
-// ------------------------------------------------------ //
-
-function map() {
-
-    var mapId = 'map',
-        mapCenter = [53.14, 8.22],
-        mapMarker = true;
-
-    if ($('#' + mapId).length > 0) {
-
-        var icon = L.icon({
-            iconUrl: 'img/marker.png',
-            iconSize: [25, 37.5],
-            popupAnchor: [0, -18],
-            tooltipAnchor: [0, 19]
-        });
-
-        var dragging = false,
-            tap = false;
-
-        if ($(window).width() > 700) {
-            dragging = true;
-            tap = true;
-        }
-
-        var map = L.map(mapId, {
-            center: mapCenter,
-            zoom: 13,
-            dragging: dragging,
-            tap: tap,
-            scrollWheelZoom: false
-        });
-
-        var Stamen_TonerLite = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
-            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            subdomains: 'abcd',
-            minZoom: 0,
-            maxZoom: 20,
-            ext: 'png'
-        });
-
-        Stamen_TonerLite.addTo(map);
-
-        map.once('focus', function () {
-            map.scrollWheelZoom.enable();
-        });
-
-        if (mapMarker) {
-            var marker = L.marker(mapCenter, {
-                icon: icon
-            }).addTo(map);
-
-            marker.bindPopup("<div class='p-4'><h5>Info Window Content</h5><p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p></div>", {
-                minwidth: 200,
-                maxWidth: 600,
-                className: 'map-custom-popup'
-            })
-
-        }
-    }
-
-}
